@@ -385,6 +385,19 @@
 }
 
 - (UICollectionViewLayoutAttributes *)layoutAttributesForItemAtIndexPath:(NSIndexPath *)indexPath {
+    if (@available(iOS 13, *)) {
+        
+    } else {
+        if (self.results.count == 0) {
+            UICollectionViewLayoutAttributes *layoutAttributes = [UICollectionViewLayoutAttributes layoutAttributesForCellWithIndexPath:indexPath];
+            CGRect frame = CGRectZero;
+            frame.origin.x += 0;
+            frame.origin.y += 0;
+            layoutAttributes.frame = frame;
+            
+            return layoutAttributes;
+        }
+    }
     NSArray<IBPCollectionCompositionalLayoutSolverResult *> *results = self.results;
     NSInteger count = results.count;
 
@@ -416,6 +429,14 @@
 
 - (IBPNSCollectionLayoutItem *)layoutItemAtIndexPath:(NSIndexPath *)indexPath {
     NSArray<IBPCollectionCompositionalLayoutSolverResult *> *results = self.results;
+    if (@available(iOS 13, *)) {
+        
+    } else {
+        if (self.results.count == 0) {
+            IBPCollectionCompositionalLayoutSolverResult *result;
+            return result;
+        }
+    }
     IBPCollectionCompositionalLayoutSolverResult *result = [results objectAtIndex:indexPath.item % results.count];
     return result.layoutItem;
 }
